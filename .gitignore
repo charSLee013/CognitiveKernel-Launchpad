@@ -1,0 +1,380 @@
+__pycache__/
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# VS Code
+.vscode/
+
+# MacOS
+.DS_Store
+
+# General cache
+.cache/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+#   For a library or package, you might want to ignore these files since the code is
+#   intended to run in multiple environments; otherwise, check them in:
+# .python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# UV
+#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#uv.lock
+
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+#poetry.toml
+
+# pdm
+#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
+#   pdm recommends including project-wide configuration in pdm.toml, but excluding .pdm-python.
+#   https://pdm-project.org/en/latest/usage/project/#working-with-version-control
+#pdm.lock
+#pdm.toml
+.pdm-python
+.pdm-build/
+
+# pixi
+#   Similar to Pipfile.lock, it is generally recommended to include pixi.lock in version control.
+#pixi.lock
+#   Pixi creates a virtual environment in the .pixi directory, just like venv module creates one
+#   in the .venv directory. It is recommended not to include this directory in version control.
+.pixi
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+#.idea/
+
+# Abstra
+# Abstra is an AI-powered process automation framework.
+# Ignore directories containing user credentials, local state, and settings.
+# Learn more at https://abstra.io/docs
+.abstra/
+
+# Visual Studio Code
+#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore
+#  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
+#  and can be added to the global gitignore or merged into this file. However, if you prefer,
+#  you could uncomment the following to ignore the entire vscode folder
+# .vscode/
+
+# Ruff stuff:
+.ruff_cache/
+
+# PyPI configuration file
+.pypirc
+
+# Marimo
+marimo/_static/
+marimo/_lsp/
+__marimo__/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# ============================================
+# Node / Frontend artifacts
+# ============================================
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+bun.lockb
+
+# ============================================
+# CognitiveKernel-Pro 项目特定忽略规则
+# ============================================
+
+# 运行时生成的结果文件
+*_results_*.json
+*_result_*.json
+*_benchmark_*.json
+*_test_*.json
+model_benchmark_results_*.json
+three_stage_demo_result_*.json
+real_three_stage_results_*.json
+user_controlled_test_results_*.json
+
+# 生成的图片和可视化文件
+results.png
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.bmp
+*.tiff
+*.webp
+model_benchmark_visualization_*.png
+execution_flow_*.png
+
+# 多媒体文件 (视频、音频等大文件)
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.mkv
+*.webm
+*.mp3
+*.wav
+*.flac
+*.aac
+*.ogg
+*.m4a
+*.wma
+
+# 临时文件和缓存
+temp/
+tmp/
+cache/
+.temp/
+.tmp/
+.cache/
+
+# 模型测试输出
+planning_action_tests/results/
+planning_action_tests/outputs/
+planning_action_tests/logs/
+
+# 调试输出文件
+debug_*.log
+debug_*.txt
+debug_*.json
+execution_trace_*.json
+llm_calls_*.log
+
+# 下载的临时文件
+downloads/
+temp_downloads/
+
+# 会话和状态文件
+session_*.json
+state_*.json
+checkpoint_*.json
+
+# 性能分析文件
+profile_*.prof
+benchmark_*.prof
+timing_*.json
+
+# 实验和测试数据
+experiments/
+test_data/
+sample_outputs/
+
+# 备份文件
+*.bak
+*.backup
+*~
+
+# 环境配置的备份
+.env.backup
+.env.local
+.env.*.local
+
+# ============================================
+# CognitiveKernel-Pro 日志系统
+# ============================================
+
+# 日志目录和文件
+logs/
+*.log
+*_console_*.log
+*_detailed_*.json
+*_session_*.json
+*_api_*.log
+logs/**/*.log
+logs/**/*.json
+
+# 详细会话日志
+detailed_session_log_*.json
+session_log_*.json
+
+# 控制台输出日志
+console_output_*.log
+execution_log_*.log
+
+# 其他临时或噪音目录
+outputs/
+tools/
+
+output/
+
+# Project-specific config and run artifacts (do not commit user secrets or outputs)
+config.toml
+config_from_env.toml
+realrun_env.toml
+realrun_*.jsonl
+monetary_system_wikipedia.txt
+
+
+# JSONL data/results (ignored by default)
+*.jsonl
+*.json

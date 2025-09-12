@@ -1,0 +1,51 @@
+CognitiveKernel-Launchpad Research License (Non-Commercial)
+
+Copyright (c) 2025 CognitiveKernel-Launchpad contributors
+
+This project is a research-only fork derived from Tencent's CognitiveKernel-Pro.
+Original upstream: https://github.com/Tencent/CognitiveKernel-Pro
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this
+software and associated documentation files (the "Software"), to use, reproduce,
+and modify the Software strictly for academic research and educational purposes only,
+subject to the following conditions:
+
+1. Non-Commercial Use Only
+   The Software may not be used, in whole or in part, for commercial purposes. Any
+   form of commercial use, including but not limited to providing services, products,
+   or paid features built upon the Software, is prohibited without prior written
+   permission from the copyright holders.
+
+2. Attribution
+   Any redistribution or publication of the Software or substantial portions of it
+   must include a prominent attribution to "CognitiveKernel-Launchpad" and a notice
+   that it is derived from Tencent's CognitiveKernel-Pro with a link to the upstream
+   repository.
+
+3. License Inclusion
+   Redistributions of the Software, with or without modification, must reproduce this
+   License text and the upstream license(s) in the documentation and/or other
+   materials provided with the distribution.
+
+4. Third-Party Components
+   This project may include or depend on third-party components that are licensed
+   under their own terms. Such licenses are incorporated by reference and must be
+   respected. In case of conflict, the third-party license terms govern those
+   specific components.
+
+5. No Warranty
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+   FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+   COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+   AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+   WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+6. No Liability for Upstream
+   References to upstream projects are for attribution only. The upstream authors and
+   organizations are not responsible for this fork and provide no warranties or
+   support for it.
+
+For permissions beyond the scope of this License (e.g., commercial licensing),
+please contact the maintainers.
+

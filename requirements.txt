@@ -1,0 +1,38 @@
+# 核心依赖
+requests>=2.31.0
+python-dotenv>=1.0.0
+PyPDF2
+
+# 数据处理
+pandas>=2.0.0
+numpy>=1.24.0
+
+# 可视化
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# 模板引擎
+jinja2>=3.1.0
+
+# 中文处理
+jieba>=0.42.1
+
+# Tokenization
+tiktoken>=0.7.0
+
+# Web自动化
+playwright>=1.40.0
+
+# 搜索功能
+ddgs>=3.0.0  # DuckDuckGo搜索 - 外部库
+# googlesearch-python>=1.2.0  # Google搜索 - 使用内置实现
+
+# 数据验证
+pydantic>=2.0.0
+
+# Web界面
+gradio>=4.0.0
+
+# 开发和测试
+pytest>=7.4.0
+pytest-asyncio>=0.21.0</search>

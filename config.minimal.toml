@@ -1,0 +1,22 @@
+# Cognitive Kernel-Pro - 最小配置示例
+# 只需要配置核心模型即可运行
+
+[ck.model]
+# 主模型配置 - 必需
+call_target = "https://api.openai.com/v1/chat/completions"
+api_key = "your-api-key-here"
+model = "gpt-4o-mini"
+
+# 可选：模型参数
+[ck.model.extract_body]
+temperature = 0.6
+max_tokens = 4000
+
+# 可选：基本设置
+[ck]
+max_steps = 16
+max_time_limit = 600
+
+# 可选：搜索后端
+[search]
+backend = "duckduckgo"  # duckduckgo | google

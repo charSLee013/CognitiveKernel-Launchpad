@@ -1,0 +1,118 @@
+# Cognitive Kernel-Pro - 全面配置示例
+# 包含所有可用配置选项的完整示例
+
+[ck]
+# 核心代理配置
+name = "ck_agent"
+description = "Cognitive Kernel, an initial autopilot system."
+max_steps = 16
+max_time_limit = 6000  # 秒
+recent_steps = 5
+obs_max_token = 8192
+exec_timeout_with_call = 1000  # 有子代理调用时的超时
+exec_timeout_wo_call = 200     # 无子代理调用时的超时
+end_template = "more"          # less | medium | more
+
+[ck.model]
+# 主模型配置
+call_target = "https://api.openai.com/v1/chat/completions"
+api_key = "your-openai-api-key"
+model = "gpt-4o-mini"
+api_base_url = "https://api.openai.com/v1"
+request_timeout = 600
+max_retry_times = 5
+max_token_num = 20000
+thinking = false
+seed = 1377
+
+[ck.model.extract_body]
+# 模型参数
+temperature = 0.6
+top_p = 0.95
+max_tokens = 4000
+frequency_penalty = 0.0
+presence_penalty = 0.0
+
+[web]
+# Web代理配置
+max_steps = 20
+use_multimodal = "auto"  # off | yes | auto
+
+[web.model]
+# Web代理模型配置
+call_target = "https://api.openai.com/v1/chat/completions"
+api_key = "your-web-model-api-key"
+model = "gpt-4o-mini"
+request_timeout = 600
+max_retry_times = 5
+max_token_num = 20000
+
+[web.model.extract_body]
+# Web模型参数
+temperature = 0.0
+top_p = 0.95
+max_tokens = 8192
+
+[web.model_multimodal]
+# Web多模态模型配置
+call_target = "https://api.openai.com/v1/chat/completions"
+api_key = "your-multimodal-api-key"
+model = "gpt-4-vision-preview"
+
+[web.model_multimodal.extract_body]
+temperature = 0.0
+top_p = 0.95
+max_tokens = 8192
+
+[web.env]
+# Web环境配置 (HTTP API)
+web_ip = "localhost:3000"
+web_command = ""
+web_timeout = 600
+screenshot_boxed = true
+target_url = "https://www.bing.com/"
+[web.env_builtin]
+# Playwright内置环境配置
+max_browsers = 16
+headless = true
+web_timeout = 600
+screenshot_boxed = true
+target_url = "https://www.bing.com/"
+
+[file]
+# 文件代理配置
+max_steps = 16
+max_file_read_tokens = 3000
+max_file_screenshots = 2
+
+[file.model]
+# 文件代理模型配置
+call_target = "https://api.openai.com/v1/chat/completions"
+api_key = "your-file-model-api-key"
+model = "gpt-4o-mini"
+
+[file.model.extract_body]
+temperature = 0.3
+top_p = 0.95
+max_tokens = 8192
+
+[file.model_multimodal]
+# 文件多模态模型配置
+call_target = "https://api.openai.com/v1/chat/completions"
+api_key = "your-file-multimodal-api-key"
+model = "gpt-4-vision-preview"
+
+[file.model_multimodal.extract_body]
+temperature = 0.0
+top_p = 0.95
+max_tokens = 8192
+
+[logging]
+# 日志配置
+console_level = "INFO"  # DEBUG | INFO | WARNING | ERROR | CRITICAL
+log_dir = "logs"
+session_logs = true
+
+[search]
+# 搜索后端配置
+backend = "duckduckgo"  # duckduckgo | google
