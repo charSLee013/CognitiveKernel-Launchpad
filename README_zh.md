@@ -75,13 +75,72 @@ python -m ck_pro \
 - 最小配置：[config.minimal.toml](config.minimal.toml) —— 详细说明见 [CONFIG_EXAMPLES.md](CONFIG_EXAMPLES.md)
 - 全面配置：[config.comprehensive.toml](config.comprehensive.toml) —— 完整字段与继承示例见 [CONFIG_EXAMPLES.md](CONFIG_EXAMPLES.md)
 
-最小配置（即可运行）：
+#### 🚀 推荐配置
+
+基于当前设置，以下是获得最佳性能的推荐配置：
+
 ```toml
+# 核心智能体配置
 [ck.model]
-call_target = "https://api.openai.com/v1/chat/completions"
-api_key = "your-api-key"
-model = "gpt-4o-mini"
+call_target = "https://api-inference.modelscope.cn/v1/chat/completions"
+api_key = "your-modelscope-api-key-here"  # 请替换为您的实际密钥
+model = "Qwen/Qwen3-235B-A22B-Instruct-2507"
+
+[ck.model.extract_body]
+temperature = 0.6
+max_tokens = 8192
+
+# Web智能体配置（用于网页浏览任务）
+[web]
+max_steps = 20
+use_multimodal = "auto"  # 需要时自动使用多模态
+
+[web.model]
+call_target = "https://api-inference.modelscope.cn/v1/chat/completions"
+api_key = "your-modelscope-api-key-here"  # 请替换为您的实际密钥
+model = "moonshotai/Kimi-K2-Instruct"
+request_timeout = 600
+max_retry_times = 5
+max_token_num = 8192
+
+[web.model.extract_body]
+temperature = 0.0
+top_p = 0.95
+max_tokens = 8192
+
+# 多模态Web智能体（用于视觉任务）
+[web.model_multimodal]
+call_target = "https://api-inference.modelscope.cn/v1/chat/completions"
+api_key = "your-modelscope-api-key-here"  # 请替换为您的实际密钥
+model = "Qwen/Qwen2.5-VL-72B-Instruct"
+request_timeout = 600
+max_retry_times = 5
+max_token_num = 8192
+
+[web.model_multimodal.extract_body]
+temperature = 0.0
+top_p = 0.95
+max_tokens = 8192
+
+# 搜索配置
+[search]
+backend = "duckduckgo"  # 推荐：可靠且无需API密钥
 ```
+
+#### 🔑 API密钥设置
+
+1. **获取ModelScope API密钥**：访问 [ModelScope](https://www.modelscope.cn/) 获取您的API密钥
+2. **替换占位符**：将所有 `your-modelscope-api-key-here` 替换为您的实际API密钥
+3. **替代方案**：使用环境变量：
+   ```bash
+   export MODELSCOPE_API_KEY="your-actual-key"
+   ```
+
+#### 📋 模型选择理由
+
+- **主智能体**：`Qwen3-235B-A22B-Instruct-2507` - 最新高性能推理模型
+- **Web智能体**：`Kimi-K2-Instruct` - 针对网页交互任务优化
+- **多模态**：`Qwen2.5-VL-72B-Instruct` - 先进的视觉-语言能力
 
 完整配置与高级选项请参见 [CONFIG_EXAMPLES.md](CONFIG_EXAMPLES.md)。
 

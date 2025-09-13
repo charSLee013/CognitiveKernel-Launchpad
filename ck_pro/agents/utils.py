@@ -59,8 +59,16 @@ def wrapped_trying(func, default_return=None, max_times=10, wait_error_names=(),
             break  # remember to jump out!!!
         except Exception as e:
             rprint(f"Retry with Error: {e}", style="white on red")
-            rand = random.randint(1, 5)
-            time.sleep(rand)
+
+            # Special handling for rate limit errors (429)
+            if type(e).__name__ == 'RateLimitError':
+                wait_time = 30  # Wait 30 seconds for rate limit
+                rprint(f"Rate limit detected, waiting {wait_time} seconds...", style="yellow")
+                time.sleep(wait_time)
+            else:
+                rand = random.randint(1, 5)
+                time.sleep(rand)
+
             if type(e).__name__ in wait_error_names:
                 continue  # simply wait it
             else:

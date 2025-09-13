@@ -74,13 +74,72 @@ Use the examples in this repo:
 - Minimal config: [config.minimal.toml](config.minimal.toml) — details in [CONFIG_EXAMPLES.md](CONFIG_EXAMPLES.md)
 - Comprehensive config: [config.comprehensive.toml](config.comprehensive.toml) — full explanation in [CONFIG_EXAMPLES.md](CONFIG_EXAMPLES.md)
 
-Minimal (just works):
+#### 🚀 Recommended Configuration
+
+Based on the current setup, here's the recommended configuration for optimal performance:
+
 ```toml
+# Core Agent Configuration
 [ck.model]
-call_target = "https://api.openai.com/v1/chat/completions"
-api_key = "your-api-key"
-model = "gpt-4o-mini"
+call_target = "https://api-inference.modelscope.cn/v1/chat/completions"
+api_key = "your-modelscope-api-key-here"  # Replace with your actual key
+model = "Qwen/Qwen3-235B-A22B-Instruct-2507"
+
+[ck.model.extract_body]
+temperature = 0.6
+max_tokens = 8192
+
+# Web Agent Configuration (for web browsing tasks)
+[web]
+max_steps = 20
+use_multimodal = "auto"  # Automatically use multimodal when needed
+
+[web.model]
+call_target = "https://api-inference.modelscope.cn/v1/chat/completions"
+api_key = "your-modelscope-api-key-here"  # Replace with your actual key
+model = "moonshotai/Kimi-K2-Instruct"
+request_timeout = 600
+max_retry_times = 5
+max_token_num = 8192
+
+[web.model.extract_body]
+temperature = 0.0
+top_p = 0.95
+max_tokens = 8192
+
+# Multimodal Web Agent (for visual tasks)
+[web.model_multimodal]
+call_target = "https://api-inference.modelscope.cn/v1/chat/completions"
+api_key = "your-modelscope-api-key-here"  # Replace with your actual key
+model = "Qwen/Qwen2.5-VL-72B-Instruct"
+request_timeout = 600
+max_retry_times = 5
+max_token_num = 8192
+
+[web.model_multimodal.extract_body]
+temperature = 0.0
+top_p = 0.95
+max_tokens = 8192
+
+# Search Configuration
+[search]
+backend = "duckduckgo"  # Recommended: reliable and no API key required
 ```
+
+#### 🔑 API Key Setup
+
+1. **Get ModelScope API Key**: Visit [ModelScope](https://www.modelscope.cn/) to obtain your API key
+2. **Replace placeholders**: Update all `your-modelscope-api-key-here` with your actual API key
+3. **Alternative**: Use environment variables:
+   ```bash
+   export MODELSCOPE_API_KEY="your-actual-key"
+   ```
+
+#### 📋 Model Selection Rationale
+
+- **Main Agent**: `Qwen3-235B-A22B-Instruct-2507` - Latest high-performance reasoning model
+- **Web Agent**: `Kimi-K2-Instruct` - Optimized for web interaction tasks
+- **Multimodal**: `Qwen2.5-VL-72B-Instruct` - Advanced vision-language capabilities
 
 For all other options, see [CONFIG_EXAMPLES.md](CONFIG_EXAMPLES.md).
 

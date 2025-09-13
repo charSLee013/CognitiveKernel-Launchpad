@@ -7,6 +7,11 @@ No provider abstraction, no defensive programming, no technical debt
 import requests
 from .utils import wrapped_trying, KwargsInitializable
 
+
+class RateLimitError(Exception):
+    """Special exception for HTTP 429 rate limit errors"""
+    pass
+
 try:
     import tiktoken
 except ImportError:
@@ -182,7 +187,7 @@ class LLM(KwargsInitializable):
     def __call__(self, messages, extract_body=None, **kwargs):
         """Pure HTTP call interface"""
         func = lambda: self._call_with_messages(messages, extract_body, **kwargs)
-        return wrapped_trying(func, max_times=self.max_retry_times)
+        return wrapped_trying(func, max_times=self.max_retry_times, wait_error_names=('RateLimitError',))
 
     def _call_with_messages(self, messages, extract_body=None, **kwargs):
         """Execute pure HTTP LLM call - no abstraction, fail fast"""
@@ -221,8 +226,12 @@ class LLM(KwargsInitializable):
             timeout=self.request_timeout
         )
 
-        # Fail fast - no defensive programming
-        if response.status_code != 200:
+        # Handle different HTTP status codes appropriately
+        if response.status_code == 429:
+            # Rate limit exceeded - special handling for retry logic
+            raise RateLimitError(f"HTTP {response.status_code}: {response.text}")
+        elif response.status_code != 200:
+            # Other HTTP errors - fail fast
             raise RuntimeError(f"HTTP {response.status_code}: {response.text}")
 
         # Parse response - fail fast on invalid format
