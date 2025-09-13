@@ -132,7 +132,7 @@ backend = "duckduckgo"  # Recommended: reliable and no API key required
 2. **Replace placeholders**: Update all `your-modelscope-api-key-here` with your actual API key
 3. **Alternative**: Use environment variables:
    ```bash
-   export MODELSCOPE_API_KEY="your-actual-key"
+   export OPENAI_API_KEY="your-actual-key"
    ```
 
 #### 📋 Model Selection Rationale

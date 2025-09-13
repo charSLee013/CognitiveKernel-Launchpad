@@ -133,7 +133,7 @@ backend = "duckduckgo"  # 推荐：可靠且无需API密钥
 2. **替换占位符**：将所有 `your-modelscope-api-key-here` 替换为您的实际API密钥
 3. **替代方案**：使用环境变量：
    ```bash
-   export MODELSCOPE_API_KEY="your-actual-key"
+   export OPENAI_API_KEY="your-actual-key"
    ```
 
 #### 📋 模型选择理由
