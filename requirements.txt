@@ -2,10 +2,15 @@
 requests>=2.31.0
 python-dotenv>=1.0.0
 PyPDF2
+pdfminer.six>=20240706  # PDF文本解析（mdconvert 使用）
 
 # 数据处理
 pandas>=2.0.0
 numpy>=1.24.0
+markdownify
+mammoth>=1.7.0            # DOCX -> HTML/MD 转换
+python-pptx>=0.6.21       # PPTX 处理
+puremagic>=1.28           # 文件类型探测
 
 # 可视化
 matplotlib>=3.7.0
@@ -22,6 +27,11 @@ tiktoken>=0.7.0
 
 # Web自动化
 playwright>=1.40.0
+pdf2image>=1.17.0         # PDF -> image (needs poppler-utils)
+beautifulsoup4>=4.12.0    # HTML parsing (bs4)
+youtube-transcript-api>=0.6.2  # YouTube transcripts
+pydub>=0.25.1             # Audio conversion (needs ffmpeg)
+SpeechRecognition>=3.10.0 # Audio transcription
 
 # 搜索功能
 ddgs>=3.0.0  # DuckDuckGo搜索 - 外部库
@@ -31,8 +41,9 @@ ddgs>=3.0.0  # DuckDuckGo搜索 - 外部库
 pydantic>=2.0.0
 
 # Web界面
-gradio>=4.0.0
+gradio>=5.44.1
+gradio[oauth]
 
 # 开发和测试
 pytest>=7.4.0
-pytest-asyncio>=0.21.0</search>
+pytest-asyncio>=0.21.0

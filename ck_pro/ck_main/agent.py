@@ -19,17 +19,26 @@ class CKAgent(MultiStepAgent):
         self.search_backend = None
         # Dedicated single-thread executor for action code to ensure thread-affinity
         self._action_executor = None
-        
+
         # Store settings reference
         self.settings = settings
-        
+
         # sub-agents - pass settings to each sub-agent during construction
-        self.web_agent = WebAgent(settings=settings, logger=logger, model=kwargs.get('model'))  # sub-agent for web
-        self.file_agent = FileAgent(settings=settings)
+        # Extract child configs from kwargs (do not pass them to super().__init__)
+        web_kwargs = (kwargs.get('web_agent') or {}).copy()
+        file_kwargs = (kwargs.get('file_agent') or {}).copy()
+
+        # Pass all web_agent kwargs through; WebAgent will consume model/max_steps/web_env_kwargs/etc.
+        self.web_agent = WebAgent(settings=settings, logger=logger, **web_kwargs)
+
+        # Likewise for file agent (model/max_steps/etc.)
+        self.file_agent = FileAgent(settings=settings, **file_kwargs)
+
         self.tool_ask_llm = AskLLMTool()
 
         # Configure search backend from config.toml if provided
         search_backend = kwargs.get('search_backend')
+
         if search_backend:
             try:
                 from ..agents.search.config import SearchConfigManager
@@ -42,6 +51,7 @@ class CKAgent(MultiStepAgent):
         self.tool_simple_search = SimpleSearchTool()
         # Choose ck_end template by verbosity style (less|medium|more)
         style = kwargs.get('end_template', 'less')
+
         _end_map = {
             'less': 'ck_end_less',
             'medium': 'ck_end_medium',
@@ -61,14 +71,17 @@ class CKAgent(MultiStepAgent):
             exec_timeout_with_call=1000,  # if calling sub-agent
             exec_timeout_wo_call=200,  # if not calling sub-agent
         )
+
         # Apply configuration overrides (remove internal-only keys first)
-        if 'end_template' in kwargs:
-            kwargs = {k: v for k, v in kwargs.items() if k != 'end_template'}
-        feed_kwargs.update(kwargs)
+        # Strip child sections so super().__init__ won't reconstruct sub-agents
+        filtered = {k: v for k, v in kwargs.items() if k not in ('web_agent', 'file_agent', 'end_template')}
+        feed_kwargs.update(filtered)
+
         # Parallel processing removed - single execution path only
-        # --
         register_template(CK_PROMPTS)  # add web prompts
+
         super().__init__(**feed_kwargs)
+
         self.tool_ask_llm.set_llm(self.model)  # another tricky part, we need to assign LLM later
         self.tool_simple_search.set_llm(self.model)
         # --

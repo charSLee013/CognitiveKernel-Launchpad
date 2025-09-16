@@ -59,15 +59,15 @@ class WebAgentConfig:
     max_steps: int = 20
     use_multimodal: str = "auto"  # off|yes|auto
     model: LLMConfig = field(default_factory=lambda: LLMConfig(
-        call_target="https://api.openai.com/v1/chat/completions",
-        api_key="your-api-key-here",
-        model="gpt-4o-mini",
+        call_target=os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1/chat/completions"),
+        api_key=os.environ.get("OPENAI_API_KEY", "your-api-key-here"),
+        model=os.environ.get("OPENAI_API_MODEL", "gpt-4o-mini"),
         extract_body={"temperature": 0.0, "max_tokens": 8192}
     ))
     model_multimodal: LLMConfig = field(default_factory=lambda: LLMConfig(
-        call_target="https://api.openai.com/v1/chat/completions",
-        api_key="your-api-key-here",
-        model="gpt-4o-mini",
+        call_target=os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1/chat/completions"),
+        api_key=os.environ.get("OPENAI_API_KEY", "your-api-key-here"),
+        model=os.environ.get("OPENAI_API_MODEL", "gpt-4o-mini"),
         extract_body={"temperature": 0.0, "max_tokens": 8192}
     ))
     env: WebEnvConfig = field(default_factory=WebEnvConfig)
@@ -81,15 +81,15 @@ class FileAgentConfig:
     max_file_read_tokens: int = 3000
     max_file_screenshots: int = 2
     model: LLMConfig = field(default_factory=lambda: LLMConfig(
-        call_target="https://api.openai.com/v1/chat/completions",
-        api_key="your-api-key-here",
-        model="gpt-4o-mini",
+        call_target=os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1/chat/completions"),
+        api_key=os.environ.get("OPENAI_API_KEY", "your-api-key-here"),
+        model=os.environ.get("OPENAI_API_MODEL", "gpt-4o-mini"),
         extract_body={"temperature": 0.3, "max_tokens": 8192}
     ))
     model_multimodal: LLMConfig = field(default_factory=lambda: LLMConfig(
-        call_target="https://api.openai.com/v1/chat/completions",
-        api_key="your-api-key-here",
-        model="gpt-4o-mini",
+        call_target=os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1/chat/completions"),
+        api_key=os.environ.get("OPENAI_API_KEY", "your-api-key-here"),
+        model=os.environ.get("OPENAI_API_MODEL", "gpt-4o-mini"),
         extract_body={"temperature": 0.0, "max_tokens": 8192}
     ))
 
@@ -107,9 +107,9 @@ class CKAgentConfig:
     exec_timeout_wo_call: int = 200
     end_template: str = "more"  # less|medium|more controls ck_end verbosity (default: more)
     model: LLMConfig = field(default_factory=lambda: LLMConfig(
-        call_target="https://api.openai.com/v1/chat/completions",
-        api_key="your-api-key-here",
-        model="gpt-4o-mini",
+        call_target=os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1/chat/completions"),
+        api_key=os.environ.get("OPENAI_API_KEY", "your-api-key-here"),
+        model=os.environ.get("OPENAI_API_MODEL", "gpt-4o-mini"),
         extract_body={"temperature": 0.6, "max_tokens": 4000}
     ))
 
@@ -165,11 +165,17 @@ class Settings:
                 )
 
         config_path = Path(path)
+
         if not config_path.exists():
             # Environment-only path: create minimal sections so env fallback triggers
-            env_present = bool(
-                os.environ.get("OPENAI_API_BASE") or os.environ.get("OPENAI_API_KEY") or os.environ.get("OPENAI_API_MODEL")
-            )
+            env_vars = {
+                "OPENAI_API_BASE": os.environ.get("OPENAI_API_BASE"),
+                "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY"),
+                "OPENAI_API_MODEL": os.environ.get("OPENAI_API_MODEL")
+            }
+
+            env_present = bool(env_vars["OPENAI_API_BASE"] or env_vars["OPENAI_API_KEY"] or env_vars["OPENAI_API_MODEL"])
+
             if env_present:
                 data: Dict[str, Any] = {
                     "ck": {"model": {}},
@@ -177,11 +183,14 @@ class Settings:
                     "file": {"model": {}, "model_multimodal": {}},
                 }
                 return cls._from_dict(data)
-            # No file and no env: return defaults
-            return cls()
+            else:
+                return cls()
 
-        with open(config_path, "rb") as f:
-            data = tomllib.load(f)
+        try:
+            with open(config_path, "rb") as f:
+                data = tomllib.load(f)
+        except Exception as e:
+            raise
 
         return cls._from_dict(data)
 
@@ -272,7 +281,6 @@ class Settings:
 
         Environment variables are only used when the corresponding config value is not provided.
         """
-
         # Merge default extract_body with config
         extract_body = default_extract_body.copy()
         extract_body.update(llm_data.get("extract_body", {}))
@@ -300,7 +308,7 @@ class Settings:
         api_base_url = llm_data.get("api_base_url")
         # Do not auto-extract from call_target to preserve inheritance behavior
 
-        return LLMConfig(
+        config = LLMConfig(
             call_target=call_target,
             api_key=api_key,
             model=model,
@@ -312,6 +320,8 @@ class Settings:
             thinking=llm_data.get("thinking", False),
             seed=llm_data.get("seed", 1377),
         )
+
+        return config
 
     @staticmethod
     def _build_web_env_config(env_data: Dict[str, Any]) -> WebEnvConfig:

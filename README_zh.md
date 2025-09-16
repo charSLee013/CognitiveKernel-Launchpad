@@ -1,22 +1,41 @@
-# 🧠 CognitiveKernel-Launchpad — 深度研究智能体与基础模型的开放推理运行时框架
+## 👉🏻 CognitiveKernel-Launchpad 👈🏻
+
+<center><h3>深度研究智能体与基础模型的开放推理运行时框架</h3></center>
+
+<div align="center">
+  <a href='https://arxiv.org/abs/2508.00414'>
+    <img src='https://img.shields.io/badge/ArXiv-2508.00414-red?logo=arxiv'/>
+  </a>
+  <br/>
+  <a href='https://github.com/charSLee013/CognitiveKernel-Launchpad'>
+    <img src='https://img.shields.io/badge/GitHub-Code-orange?logo=github'/>
+  </a>
+  <a href='https://huggingface.co/spaces/Chars/CognitiveKernel-Launchpad'>
+    <img src='https://img.shields.io/badge/HuggingFace-Demo-blue?logo=huggingface'/>
+  </a>
+  <a href='https://www.modelscope.cn/studios/mirror013/CognitiveKernel-Launchpad/summary'>
+    <img src='https://img.shields.io/badge/ModelScope-Demo-purple?logo=modelscope'/>
+  </a>
+</div>
+
 
 > 🎓 仅用于学术研究与教学使用 — 禁止商用
 > 📄 [论文（arXiv:2508.00414）](https://arxiv.org/abs/2508.00414) | 🇬🇧 [English](readme.md) | 📜 [LICENSE](LICENSE.txt)
 
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
-[![arXiv](https://img.shields.io/badge/arXiv-2508.00414-b31b1b.svg)](https://arxiv.org/abs/2508.00414)
+
 
 ---
 
-## 🌟 为什么选择 CognitiveKernel-Launchpad？
+### 摘要
 
-本研究用途的分支派生自腾讯的 CognitiveKernel-Pro，专为推理时使用优化：剔除了复杂的训练/SFT 与繁重测试流水线，聚焦于简洁稳定的推理运行时，便于分布式部署与推理落地；同时新增轻量级 Gradio 网页界面，便于交互使用。
+本研究用分支源自腾讯 CognitiveKernel-Pro，专注推理时使用：移除训练/SFT 与重型测试流水线，提供简洁的多步推理代理（Web/文件模块化）与轻量级 Gradio 界面，便于部署与在线演示。
 
 ---
 
 ## 🚀 快速开始
+想要快速上手：直接在线体验 — ModelScope（国内）https://www.modelscope.cn/studios/mirror013/CognitiveKernel-Launchpad/summary | Hugging Face（国外）https://huggingface.co/spaces/Chars/CognitiveKernel-Launchpad
 
-### 1. 安装（无需 GPU）
+### 1. 安装
 
 ```bash
 git clone https://github.com/charSLee013/CognitiveKernel-Launchpad.git
@@ -133,7 +152,7 @@ backend = "duckduckgo"  # 推荐：可靠且无需API密钥
 2. **替换占位符**：将所有 `your-modelscope-api-key-here` 替换为您的实际API密钥
 3. **替代方案**：使用环境变量：
    ```bash
-   export OPENAI_API_KEY="your-actual-key"
+   export MODELSCOPE_API_KEY="your-actual-key"
    ```
 
 #### 📋 模型选择理由

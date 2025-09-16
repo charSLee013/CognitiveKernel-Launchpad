@@ -297,6 +297,8 @@ cache/
 .temp/
 .tmp/
 .cache/
+*.pdf
+*.jsonl
 
 # 模型测试输出
 planning_action_tests/results/
@@ -328,6 +330,13 @@ timing_*.json
 experiments/
 test_data/
 sample_outputs/
+
+# 临时测试文件 (防止意外提交)
+test_manual_*.py
+test_*.toml
+*_test_*.py
+temp_*.py
+debug_*.py
 
 # 备份文件
 *.bak

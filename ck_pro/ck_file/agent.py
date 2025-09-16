@@ -33,7 +33,15 @@ class FileAgent(MultiStepAgent):
 
         self.file_env_kwargs['max_file_read_tokens'] = self.max_file_read_tokens
         self.file_env_kwargs['max_file_screenshots'] = self.max_file_screenshots
-        self.model_multimodal = LLM(_default_init=True)  # multimodal model
+
+        # Use same model config as main model for multimodal (if provided); otherwise lazy init
+        multimodal_kwargs = kwargs.get('model_multimodal', {}).copy() if kwargs.get('model_multimodal') else None
+        if multimodal_kwargs:
+            self.model_multimodal = LLM(**multimodal_kwargs)
+        else:
+            # Lazy/default init to avoid validation errors when not needed
+            self.model_multimodal = LLM(_default_init=True)
+
         # --
         register_template(FILE_PROMPTS)  # add web prompts
         super().__init__(**feed_kwargs)

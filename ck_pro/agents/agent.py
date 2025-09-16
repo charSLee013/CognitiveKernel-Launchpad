@@ -133,15 +133,19 @@ class MultiStepAgent(KwargsInitializable):
         # Initialize session
         if session is None:
             session = AgentSession(task=task, **extra_info)
+
         max_steps = max_steps if max_steps is not None else self.max_steps
+
         # --
         if stream:  # The steps are returned as they are executed through a generator to iterate on.
             ret = self.yield_session_run(session=session, max_steps=max_steps)  # return a yielder
         else:  # Outputs are returned only at the end. We only look at the last step.
-            for _ in self.yield_session_run(session=session, max_steps=max_steps):
+            for step_info in self.yield_session_run(session=session, max_steps=max_steps):
                 pass
             ret = session
-        rprint(f"ZZEnd task for {self.name} [ctime={time.ctime()}, interval={time.perf_counter()-start_pc}]")
+
+        execution_time = time.perf_counter() - start_pc
+        rprint(f"ZZEnd task for {self.name} [ctime={time.ctime()}, interval={execution_time}]")
         return ret
 
     # main running loop
@@ -152,7 +156,9 @@ class MultiStepAgent(KwargsInitializable):
         self._last_observation_text = None
         self._repeat_count = 0
         self._repeat_warning_msg = ""
+
         self.init_run(session)  # start
+
         progress_state = {}  # current state
         stop_reason = None
         while True:

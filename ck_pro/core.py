@@ -93,6 +93,7 @@ class CognitiveKernel:
         """Initialize with validated settings"""
         if settings is None:
             settings = Settings()  # Use default settings
+
         self.settings = settings
         self._agent = None
         self._logger = None
@@ -113,7 +114,11 @@ class CognitiveKernel:
 
             # Get logger if needed
             if self._logger is None:
-                self._logger = self.settings.build_logger()
+                try:
+                    self._logger = self.settings.build_logger()
+                except Exception:
+                    # Continue execution with None logger
+                    pass
 
             # Create agent with clean configuration
             agent_kwargs = self.settings.to_ckagent_kwargs()
@@ -140,6 +145,9 @@ class CognitiveKernel:
         """
         if not question or not question.strip():
             raise ValueError("Question cannot be empty")
+
+        # Get agent (triggers lazy loading)
+        agent = self.agent
 
         if stream:
             return self._reason_stream(question.strip(), **kwargs)
@@ -209,7 +217,10 @@ class CognitiveKernel:
             yield {"type": "start", "step": 0, "result": initial_result}
 
             # Process each step as it completes
+            generator_has_items = False
+
             for step_info in session_generator:
+                generator_has_items = True
                 step_count += 1
                 step_type = step_info.get("type", "unknown")
 
@@ -277,6 +288,16 @@ class CognitiveKernel:
                         )
                     yield {"type": "complete", "step": step_count, "result": final_result}
                     break
+
+            # Check if generator was empty
+            if not generator_has_items:
+                execution_time = time.time() - start_time
+                error_result = ReasoningResult.failure_result(
+                    question=question,
+                    error="Session generator produced no items - possible API or configuration issue",
+                    execution_time=execution_time
+                )
+                yield {"type": "error", "step": 0, "result": error_result}
 
         except Exception as e:
             execution_time = time.time() - start_time

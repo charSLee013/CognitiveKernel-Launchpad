@@ -145,19 +145,93 @@ def read_questions(input_source: Optional[str]) -> Iterator[Dict[str, Any]]:
         }
 
 
-def write_result(result_data: Dict[str, Any], output_file: Optional[str] = None):
-    """Write result to output file or stdout"""
-    if output_file:
-        with open(output_file, 'a') as f:
-            f.write(result_data['answer'] + '\n')
-    else:
-        # Pretty print to stdout
-        if 'answer' in result_data:
-            print(f"Answer: {result_data['answer']}")
-        if 'reasoning_steps' in result_data:
-            print(f"Steps: {result_data['reasoning_steps']}")
-        if 'execution_time' in result_data:
-            print(f"Time: {result_data['execution_time']:.2f}s")
+def format_steps_content(reasoning_steps_content: str, verbose: bool) -> str:
+    """Format reasoning steps content based on verbose mode"""
+    if not reasoning_steps_content:
+        return ""
+
+    lines = reasoning_steps_content.split('\n')
+    formatted_lines = []
+
+    for line in lines:
+        # Always include step headers, Action, and Result
+        if (line.startswith('## Step') or
+            line.startswith('**Action:**') or
+            line.startswith('**Result:**') or
+            line.startswith('```')):
+            formatted_lines.append(line)
+        # Include Planning and Thought only in verbose mode
+        elif verbose and (line.startswith('**Planning:**') or
+                         line.startswith('**Thought:**')):
+            formatted_lines.append(line)
+        # Include code blocks and result content
+        elif line.strip() and not line.startswith('**'):
+            formatted_lines.append(line)
+
+    return '\n'.join(formatted_lines)
+
+
+def write_streaming_step(step_update: Dict[str, Any], verbose: bool):
+    """Write a single streaming step to stdout immediately"""
+    step_type = step_update.get("type", "unknown")
+    result = step_update.get("result")
+
+    if not result or not result.success:
+        return
+
+    if step_type == "start":
+        # Don't print anything for start - just begin processing
+        pass
+    elif step_type in ["plan", "action"]:
+        # Print the current step content immediately
+        if result.reasoning_steps_content:
+            formatted_content = format_steps_content(result.reasoning_steps_content, verbose)
+            if formatted_content:
+                print(formatted_content)
+                print()  # Add blank line after each step
+    elif step_type == "complete":
+        # Print final answer and summary
+        if result.answer:
+            print(f"Answer: {result.answer}")
+
+        if verbose:
+            if result.reasoning_steps:
+                print(f"Steps: {result.reasoning_steps}")
+            if result.execution_time:
+                print(f"Time: {result.execution_time:.2f}s")
+    elif step_type == "error":
+        print(f"Error: {result.error}")
+
+
+def process_streaming_reasoning(kernel, question: str, verbose: bool, output_file: Optional[str] = None):
+    """Process streaming reasoning and display results in real-time"""
+    try:
+        # Use streaming mode
+        streaming_generator = kernel.reason(question, stream=True)
+
+        final_answer = None
+
+        for step_update in streaming_generator:
+            # Display step immediately
+            write_streaming_step(step_update, verbose)
+
+            # Capture final answer for file output
+            if step_update.get("type") == "complete":
+                result = step_update.get("result")
+                if result and result.answer:
+                    final_answer = result.answer
+
+        # Write to file if specified
+        if output_file and final_answer:
+            with open(output_file, 'a') as f:
+                f.write(final_answer + '\n')
+
+    except Exception as e:
+        print(f"Error during reasoning: {e}")
+        raise
+
+
+
 
 
 def main():
@@ -204,20 +278,13 @@ def main():
             question = question_data['question']
 
             try:
-                # Reason about the question
-                result = kernel.reason(question, **reasoning_kwargs)
-
-                # Write result
-                reasoning_steps = len(result.session.steps) if result.session else 0
-                result_data = {
-                    'answer': result.answer,
-                    'reasoning_steps': reasoning_steps,
-                    'execution_time': result.execution_time
-                }
-                write_result(result_data, args.output)
+                # Use streaming reasoning for real-time display
+                start_time = time.time()
+                process_streaming_reasoning(kernel, question, args.verbose, args.output)
+                execution_time = time.time() - start_time
 
                 successful_answers += 1
-                total_time += result.execution_time
+                total_time += execution_time
 
             except Exception as e:
                 raise RuntimeError(f"Processing failed: {e}") from e

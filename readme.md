@@ -1,22 +1,38 @@
-# 🧠 CognitiveKernel-Launchpad — Open Framework for Deep Research Agents & Agent Foundation Models
+## 👉🏻 CognitiveKernel-Launchpad 👈🏻
+
+<center><h3>Open Framework for Deep Research Agents & Agent Foundation Models</h3></center>
+
+<div align="center">
+  <a href='https://arxiv.org/abs/2508.00414'>
+    <img src='https://img.shields.io/badge/ArXiv-2508.00414-red?logo=arxiv'/>
+  </a>
+  <br/>
+  <a href='https://github.com/charSLee013/CognitiveKernel-Launchpad'>
+    <img src='https://img.shields.io/badge/GitHub-Code-orange?logo=github'/>
+  </a>
+  <a href='https://huggingface.co/spaces/Chars/CognitiveKernel-Launchpad'>
+    <img src='https://img.shields.io/badge/HuggingFace-Demo-blue?logo=huggingface'/>
+  </a>
+  <a href='https://www.modelscope.cn/studios/mirror013/CognitiveKernel-Launchpad'>
+    <img src='https://img.shields.io/badge/ModelScope-Demo-purple?logo=modelscope'/>
+  </a>
+</div>
 
 > 🎓 **Academic Research & Educational Use Only** — No Commercial Use
 > 📄 [Paper (arXiv:2508.00414)](https://arxiv.org/abs/2508.00414) | 🇨🇳 [中文文档](README_zh.md) | 📜 [LICENSE](LICENSE.txt)
 
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
-[![arXiv](https://img.shields.io/badge/arXiv-2508.00414-b31b1b.svg)](https://arxiv.org/abs/2508.00414)
-
 ---
 
-## 🌟 Why CognitiveKernel-Launchpad?
+### Abstract
 
-This research-only fork is derived from Tencent's original CognitiveKernel-Pro and is purpose-built for inference-time usage. It removes complex training/SFT and heavy testing pipelines, focusing on a clean reasoning runtime that is easy to deploy for distributed inference. In addition, it includes a lightweight Gradio web UI for convenient usage.
+A research-only fork of Tencent's CognitiveKernel-Pro focused on inference-time usage. It simplifies the runtime by removing training/SFT and heavy test pipelines, providing a clean multi-step reasoning agent with modular Web/File tools and a lightweight Gradio UI for easy deployment and online demos.
 
 ---
 
 ## 🚀 Quick Start
+Quickest path: use the online demo — ModelScope (CN) https://www.modelscope.cn/studios/mirror013/CognitiveKernel-Launchpad/summary | Hugging Face (Global) https://huggingface.co/spaces/Chars/CognitiveKernel-Launchpad
 
-### 1. Install (No GPU Required)
+### 1. Install
 
 ```bash
 git clone https://github.com/charSLee013/CognitiveKernel-Launchpad.git
@@ -132,7 +148,7 @@ backend = "duckduckgo"  # Recommended: reliable and no API key required
 2. **Replace placeholders**: Update all `your-modelscope-api-key-here` with your actual API key
 3. **Alternative**: Use environment variables:
    ```bash
-   export OPENAI_API_KEY="your-actual-key"
+   export MODELSCOPE_API_KEY="your-actual-key"
    ```
 
 #### 📋 Model Selection Rationale
@@ -172,11 +188,13 @@ python -m ck_pro.gradio_app --host 0.0.0.0 --port 7860
 → Open `http://localhost:7860` in your browser.
 
 
-Note: It is recommended to install Playwright browsers (or install them if you encounter related errors). On Linux you may also need to run playwright install-deps.
+
 
 Note: It is recommended to install Playwright browsers (or install them if you encounter related errors): `python -m playwright install` (Linux may also require `python -m playwright install-deps`).
 
 ---
+
+
 
 ### 📂 Logging
 
